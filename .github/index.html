@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max IPTV - اشتراكك الأفضل</title>
+    <style>
+        :root {
+            --gradient-start: #2b1f4d;
+            --gradient-end: #1f1635;
+            --accent: #e056fd;
+            --accent-hover: #f178ff;
+            --text: #ffffff;
+            --text-secondary: #b8b8b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .download-btn {
+            background: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(to right, #e056fd, #f178ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .video-container {
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+            margin: 2rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .video-container img {
+            width: 100%;
+            display: block;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .play-button::after {
+            content: '';
+            border-style: solid;
+            border-width: 15px 0 15px 25px;
+            border-color: transparent transparent transparent white;
+            margin-left: 5px;
+        }
+
+        .plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .plan-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .plan-card h3 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .navbar {
+                padding: 1rem;
+            }
+            .video-container {
+                width: 95%;
+            }
+        }
+        .reviews {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 2rem auto;
+    backdrop-filter: blur(10px);
+    color: var(--text);
+}
+
+.reviews h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.review-form label {
+    font-weight: bold;
+}
+
+.review-form input,
+.review-form textarea {
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--text-secondary);
+    font-size: 1rem;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.review-form button {
+    background: var(--accent);
+    color: white;
+    padding: 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s ease;
+}
+
+.review-form button:hover {
+    background: var(--accent-hover);
+}
+
+.review-list {
+    margin-top: 2rem;
+}
+
+.review-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.review-item h4 {
+    font-size: 1.2rem;
+    color: var(--accent);
+}
+
+.review-item p {
+    color: var(--text-secondary);
+}
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <span>Max IPTV</span>
+        </a>
+        <a href="https://apk.e-droid.net/apk_t/app3419228_4538.apk?v=6"
+class="download-btn" target="_blank">
+            تحميل التطبيق
+        </a>
+    </nav>
+
+    <main class="hero">
+        <h1>Ultimate Streaming Experience with max</h1>
+        <p>اغمر نفسك في عالم من الترفيه اللانهائي بجودة عالية الوضوح</p>
+        
+        <div class="video-container">
+            <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=1920&q=80" alt="Streaming Preview">
+            <div class="play-button" onclick="openVideo('https://player.vimeo.com/video/1042516855')"></div>
+        </div>
+
+        <div class="plans">
+            <div class="plan-card">
+                <h3>الخطة المجانية</h3>
+                <div class="price">0$</div>
+                <p>محتوى محدود مع إعلانات</p>
+                <button onclick="alert('Code: Free 🔥')" class="download-btn">ابدأ الآن</button>
+            </div>
+
+            <div class="plan-card">
+                <h3>الخطة الأساسية</h3>
+                <div class="price">2$</div>
+                <p>3 أشهر</p>
+                <p>جودة عالية بدون إعلانات</p>
+                <a href="https://www.instagram.com/ayoub.chaibi811" class="download-btn">اشترك الآن</a>
+            </div>
+
+            <div class="plan-card">
+                <h3>الخطة المميزة</h3>
+                <div class="price">6$</div>
+                <p>12 شهر</p>
+                <p>أعلى جودة متاحة</p>
+                <a href="https://www.instagram.com/ayoub.chaibi811" class="download-btn">اشترك الآن</a>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeVideo()">&times;</span>
+            <iframe id="videoFrame" width="100%" height="562" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        </div>
+    </div>
+
+<div class="reviews">
+    <h2>مراجعات المستخدمين</h2>
+    <form id="reviewForm" class="review-form">
+        <label for="name">اسمك:</label>
+        <input type="text" id="name" name="name" placeholder="أدخل اسمك" required>
+
+        <label for="feedback">تعليقك:</label>
+        <textarea id="feedback" name="feedback" placeholder="أدخل تعليقك هنا" required></textarea>
+
+        <button type="submit" class="submit-btn">أرسل المراجعة</button>
+    </form>
+
+    <div class="review-list">
+        <div class="review-item">
+            <h4>أحمد السهلي</h4>
+            <p>تجربة رائعة! التطبيق يعمل بشكل ممتاز على الهاتف الذكي. جودة الفيديو عالية جداً وأنا أحب تصميمه.</p>
+        </div>
+        <div class="review-item">
+            <h4>سارة محمد</h4>
+            <p>أعجبني المحتوى المتنوع ولكن يفضل لو كان هناك المزيد من خيارات الاشتراك. بشكل عام، التطبيق جيد جداً.</p>
+        </div>
+        <div class="review-item">
+            <h4>خالد عبد الله</h4>
+            <p>واجهت بعض المشاكل في التحميل على التابلت، لكن الدعم الفني كان سريعاً في الرد وحل المشكلة.</p>
+        </div>
+        <div class="review-item">
+            <h4>مريم علي</h4>
+            <p>التطبيق ممتاز. الجودة رائعة والمحتوى رائع ولكن يفضل لو كان هناك تطبيق للـ Apple TV.</p>
+        </div>
+        <div class="review-item">
+            <h4>يوسف محمد</h4>
+            <p>جودة الصورة ممتازة وأحب حقيقة أنني أستطيع مشاهدة الكثير من القنوات. لكن التطبيق يمكن أن يكون أسرع.</p>
+        </div>
+        <div class="review-item">
+            <h4>فاطمة سعيد</h4>
+            <p>التطبيق رائع. جميع القنوات التي أحب مشاهدتها متوفرة. أحتاج فقط إلى تحسين في سرعة التحميل.</p>
+        </div>
+        <div class="review-item">
+            <h4>محمود حسين</h4>
+            <p>التطبيق يواجه بعض المشاكل على جهاز الكمبيوتر، لكنه يعمل بشكل جيد على الهاتف المحمول. أتمنى إصلاح الأخطاء.</p>
+        </div>
+        <div class="review-item">
+            <h4>آية جمال</h4>
+            <p>التصميم جذاب وسهل الاستخدام. أتمنى إضافة المزيد من القنوات الأجنبية.</p>
+        </div>
+        <div class="review-item">
+            <h4>عادل كمال</h4>
+            <p>أحتاج إلى بعض التعديلات في واجهة المستخدم. لكن جودة البث رائعة جداً.</p>
+        </div>
+        <div class="review-item">
+            <h4>نورا عبد الله</h4>
+            <p>التطبيق يعمل بشكل جيد للغاية. جودة الصورة ممتازة. يحتاج فقط إلى بعض التحسينات في واجهة المستخدم.</p>
+        </div>
+        <div class="review-item">
+            <h4>حسن سعيد</h4>
+            <p>جودة الفيديو رائعة ولكن كانت هناك بعض المشاكل مع الاتصال بالبث في بعض الأحيان.</p>
+        </div>
+        <div class="review-item">
+            <h4>محمود عادل</h4>
+            <p>التطبيق يقدم محتوى جيد، لكن هناك بعض التأخير في تحميل الفيديوهات في بعض الأحيان.</p>
+        </div>
+        <div class="review-item">
+            <h4>سميرة نبيل</h4>
+            <p>أفضل شيء هو التنوع الكبير في المحتوى. يمكن تحسين جودة البث بعض الشيء.</p>
+        </div>
+        <div class="review-item">
+            <h4>رنا عبد الرحمن</h4>
+            <p>التطبيق سهل الاستخدام وعالي الجودة. أتمنى إضافة المزيد من القنوات الرياضية.</p>
+        </div>
+        <div class="review-item">
+            <h4>عادل مصطفى</h4>
+            <p>التطبيق يحتاج إلى تحديثات أكبر لتحسين الأداء. ولكن المحتوى ممتاز.</p>
+        </div>
+        <div class="review-item">
+            <h4>سليمان علي</h4>
+            <p>البث رائع، لكن أواجه بعض المشاكل مع الصوت عند البث المباشر.</p>
+        </div>
+        <div class="review-item">
+            <h4>فاطمة حسين</h4>
+            <p>أعجبني التطبيق بشكل عام، لكنه يفتقر إلى بعض القنوات المميزة.</p>
+        </div>
+        <div class="review-item">
+            <h4>جمال الدين</h4>
+            <p>التطبيق ممتاز في معظم الأحيان. البث يعمل بشكل جيد والجودة عالية.</p>
+        </div>
+        <div class="review-item">
+            <h4>هدى سامي</h4>
+            <p>أواجه بعض المشاكل في تحميل التطبيق على جهازي اللوحي. أرجو حل المشكلة.</p>
+        </div>
+        <div class="review-item">
+            <h4>هاني رشاد</h4>
+            <p>أعتقد أن التطبيق يحتاج إلى إضافة المزيد من اللغات لتلبية احتياجات الجميع.</p>
+        </div>
+        <div class="review-item">
+            <h4>ليلى عبد العزيز</h4>
+            <p>الواجهة جميلة وسهلة الاستخدام. أواجه بعض المشاكل في التحميل عندما أستخدم Wi-Fi.</p>
+        </div>
+        <div class="review-item">
+            <h4>نادر جمال</h4>
+            <p>التطبيق جيد ولكن يفضل إضافة ميزة تحميل الفيديوهات لمشاهدتها لاحقاً.</p>
+        </div>
+        <div class="review-item">
+            <h4>أمينة زكريا</h4>
+            <p>التطبيق سريع في تحميل الفيديوهات ولكن أواجه مشكلة في بعض القنوات التي لا تعمل بشكل جيد.</p>
+        </div>
+        <div class="review-item">
+            <h4>عماد منصور</h4>
+            <p>جودة الصورة رائعة ولكن الصوت يمكن أن يكون أفضل في بعض الأحيان.</p>
+        </div>
+        <div class="review-item">
+            <h4>سمر أحمد</h4>
+            <p>أحببت فكرة التطبيق بشكل عام. لكن من الأفضل إضافة خاصية البث المباشر لمباريات كرة القدم.</p>
+        </div>
+        <div class="review-item">
+            <h4>رائد حمدي</h4>
+            <p>تجربة رائعة، التطبيق يقدم جودة فيديو ممتازة ولكن يفضل تحسين سرعة التحميل.</p>
+        </div>
+        <div class="review-item">
+            <h4>جمال عادل</h4>
+            <p>التطبيق يحتاج إلى المزيد من القنوات المتنوعة، لكن البث رائع.</p>
+        </div>
+        <div class="review-item">
+            <h4>هاشم محمد</h4>
+            <p>التطبيق يحتاج إلى إضافة المزيد من القنوات الرياضية العالمية.</p>
+        </div>
+        <div class="review-item">
+            <h4>فرح محمود</h4>
+            <p>تجربة جيدة بشكل عام، لكن بعض القنوات تحتاج إلى تحسين الجودة.</p>
+        </div>
+        <div class="review-item">
+            <h4>رامي سعيد</h4>
+            <p>البث رائع ولكن التطبيق يحتاج إلى تحديثات مستمرة للحفاظ على الجودة.</p>
+        </div>
+        <div class="review-item">
+            <h4>إيمان فاروق</h4>
+            <p>التطبيق جيد، لكن يمكن إضافة المزيد من الخيارات مثل تسجيل الفيديوهات.</p>
+        </div>
+        <div class="review-item">
+            <h4>سمير محمد</h4>
+            <p>تجربة ممتازة بشكل عام، لكن أحتاج إلى بعض التحسينات في الصوت.</p>
+        </div>
+        <div class="review-item">
+            <h4>فاطمة عبد الله</h4>
+            <p>التطبيق سريع وسهل الاستخدام، لكن يفضل إضافة خاصية البحث المتقدم.</p>
+        </div>
+        <div class="review-item">
+            <h4>وائل زكريا</h4>
+            <p>جودة البث ممتازة ولكن يوجد بعض التأخير في تحميل القنوات.</p>
+        </div>
+        <div class="review-item">
+            <h4>عادل جابر</h4>
+            <p>التطبيق يحتوي على محتوى جيد، ولكن هناك بعض القنوات التي لا تعمل بشكل صحيح.</p>
+        </div>
+        <div class="review-item">
+            <h4>جميلة حسن</h4>
+            <p>التطبيق يقدم تجربة جيدة ولكن يحتاج إلى بعض التحسينات في سرعة التحميل.</p>
+        </div>
+        <div class="review-item">
+            <h4>شادي صلاح</h4>
+            <p>البث جيد والجودة رائعة. أحتاج إلى تحسين واجهة المستخدم.</p>
+        </div>
+        <div class="review-item">
+            <h4>ماريه شريف</h4>
+            <p>أعجبني التطبيق بشكل عام. لكن أواجه مشكلة في الحصول على بعض القنوات في بعض الأحيان.</p>
+        </div>
+        <div class="review-item">
+            <h4>علاء رشيد</h4>
+            <p>التطبيق جيد ولكنه يحتاج إلى إضافة خيارات أكثر للبث المباشر.</p>
+        </div>
+        <div class="review-item">
+            <h4>لبنى عبد الرحمن</h4>
+            <p>التطبيق يعمل بشكل جيد لكن هناك بعض القنوات التي تحتاج إلى تحسين.</p>
+        </div>
+        <div class="review-item">
+            <h4>أحمد عبد العزيز</h4>
+            <p>محتوى رائع ولكن يفضل إضافة المزيد من القنوات العربية.</p>
+        </div>
+        <div class="review-item">
+            <h4>ليلى عباس</h4>
+            <p>التطبيق رائع بشكل عام. لكن البث يواجه بعض التقطعات.</p>
+        </div>
+        <div class="review-item">
+            <h4>محمد علي</h4>
+            <p>تجربة رائعة! التطبيق سريع لكن يمكن تحسين جودة الصوت في بعض القنوات.</p>
+        </div>
+        <div class="review-item">
+            <h4>فريدة سالم</h4>
+            <p>التطبيق يحتوي على الكثير من القنوات الممتازة ولكن يفضل إضافة المزيد من الأفلام.</p>
+        </div>
+        <div class="review-item">
+            <h4>أمير مصطفى</h4>
+            <p>البث يعمل بشكل جيد ولكن التطبيق يحتاج إلى المزيد من التحسينات لتقليل التأخير.</p>
+        </div>
+        <div class="review-item">
+            <h4>سارة وليد</h4>
+            <p>أحببت التطبيق ولكن هناك بعض القنوات التي لا تعمل بشكل جيد.</p>
+        </div>
+        <div class="review-item">
+            <h4>محمود فؤاد</h4>
+            <p>التطبيق ممتاز لكن يفضل إضافة خاصية البحث المتقدم.</p>
+        </div>
+        <div class="review-item">
+            <h4>رنا شوقي</h4>
+            <p>أحتاج إلى المزيد من القنوات الأجنبية. لكن التطبيق يعمل بشكل جيد.</p>
+        </div>
+    </div>
+</div>
+
+
+    <script>
+        function openVideo(url) {
+            const modal = document.getElementById('videoModal');
+            const videoFrame = document.getElementById('videoFrame');
+            videoFrame.src = url;
+            modal.classList.add('active');
+        }
+
+        function closeVideo() {
+            const modal = document.getElementById('videoModal');
+            const videoFrame = document.getElementById('videoFrame');
+            videoFrame.src = '';
+            modal.classList.remove('active');
+        }
+
+        document.getElementById('videoModal').addEventListener('click', (e) => {
+            if (e.target.id === 'videoModal') {
+                closeVideo();
+            }
+        });
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const feedback = document.getElementById('feedback').value;
+
+    if (name && feedback) {
+        const reviewList = document.querySelector('.review-list');
+        
+        // Create review element
+        const reviewItem = document.createElement('div');
+        reviewItem.classList.add('review-item');
+        
+        reviewItem.innerHTML = `
+            <h4>${name}</h4>
+            <p>${feedback}</p>
+        `;
+        
+        // Append the new review to the list
+        reviewList.appendChild(reviewItem);
+
+        // Reset the form
+        document.getElementById('reviewForm').reset();
+    }
+});
+
+    </script>
+</body>
+</html>
